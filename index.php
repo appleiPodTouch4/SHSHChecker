@@ -50,7 +50,7 @@ function get_i4_shsh_link(){
 		ios : download_ios_ver.value
 	};   
     var encrypt_param = encrypt_3DES(JSON.stringify(encrypt_object),'2015aisi1234sj7890smartflashi4pc',0,1,0);
-    return "https://i4tool2.i4.cn/downloadConvertSHSH.xhtml?param=" + encrypt_param;
+    return encrypt_param;
 
 }
 
@@ -228,7 +228,7 @@ download_button.addEventListener('click', function(event) {
   var ios_ver = document.getElementById('download_ios_ver');
   if(download_source_input.value.includes("i4")){
             var filename = intecid.value + "_" + model.value+ "_" +ios_ver.value+".shsh"; // 设置shsh名字
-            var downlink = get_i4_shsh_link();
+            var downlink = "https://i4tool2.i4.cn/downloadConvertSHSH.xhtml?param=" + encodeURIComponent(get_i4_shsh_link());
             const down_a = document.createElement("a");
             down_a.href = downlink;
             down_a.filename = filename;
