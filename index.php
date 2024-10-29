@@ -39,7 +39,19 @@ function post_encrypt_data(){
 	document.getElementById('post_model').value = model;
 }
 
-function get_i4_shsh_downlink(){
+function get_i4_shsh_link(){
+	hexecid = document.getElementById('ecid').value;
+	ecid = parseInt(hexecid, 16); 
+	model = document.getElementById('post_model').value;
+	var encrypt_object = {
+		ecid: ecid,
+		model: model,
+		time : Date.now(),
+		ios : download_ios_ver.value
+	};   
+    var encrypt_param = encrypt_3DES(JSON.stringify(encrypt_object),'2015aisi1234sj7890smartflashi4pc',0,1,0);
+    return "https://i4tool2.i4.cn/downloadConvertSHSH.xhtml?param=" + encrypt_param;
+
 }
 
 </script>
@@ -51,8 +63,10 @@ function get_i4_shsh_downlink(){
   <input type="hidden" id="encrypt_param" name="encrypt_param" value="<?php echo $_POST['encrypt_param']?>">
 	<input type="hidden" id="intecid" name="intecid" value="<?php echo $_POST['intecid']?>">
 	<input type="hidden" id="post_model" name="post_model" value="<?php echo $_POST['post_model']?>">
+	<input type="hidden" id="download_source" name="download_source" value="">
+	<input type="hidden" id="download_ios_ver" name="download_ios_ver" value="">
 	  <div class="form-floating mb-3 mt-3">
-		<input type="ecid" class="form-control" id="ecid" placeholder="Enter ECID" name="ecid">
+		<input type="ecid" class="form-control" id="ecid" placeholder="Enter ECID" name="ecid" value="<?php echo $_POST['ecid']?>">
 		<label for="ecid" class="form-label">ecid(hex)</label>
 	  </div>
 	  <div class="form-floating mb-3 mt-3">
@@ -193,16 +207,35 @@ for (var i = 0; i < buttons.length; i++) {
 		var button_id = button.id;
 		var model = document.getElementById('post_model');
 		if(button_id.includes("cydia")){
+      var download_source_input = document.getElementById('download_source');
+      download_source_input.value = "cydia";
 			var Content = "您正在从 Cydia 服务器 下载 " + model.value + " 的 iOS" + button_id.replace("cydia_", "") + " 的 SHSH 文件";
 		}else if(button_id.includes("i4")){
+      var download_source_input = document.getElementById('download_source');
+      download_source_input.value = "i4";
 			var Content = "您正在从 爱思服务器 下载 " + model.value + " 的 iOS" + button_id.replace("i4_", "") + " 的 SHSH 文件"	;
 		}
+        var ios_ver = document.getElementById('download_ios_ver');
+        ios_ver.value = button_id.replace("i4_", "");
         pContent.textContent = Content; // 或者使用 innerText
     });
 }
 
 var download_button = document.getElementById('download_shsh_button');
 download_button.addEventListener('click', function(event) {
+  var download_source_input = document.getElementById('download_source');
+  var intecid = document.getElementById('intecid');
+  var ios_ver = document.getElementById('download_ios_ver');
+  if(download_source_input.value.includes("i4")){
+            var filename = intecid.value + "_" + model.value+ "_" +ios_ver.value+".shsh"; // 设置shsh名字
+            var downlink = get_i4_shsh_link();
+            const down_a = document.createElement("a");
+            down_a.href = downlink;
+            down_a.filename = filename;
+            document.body.appendChild(down_a);
+            down_a.click();
+            document.body.removeChild(down_a);
+        }
 		
 
 		
