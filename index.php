@@ -53,7 +53,7 @@ function get_i4_shsh_downlink(){
 	<input type="hidden" id="post_model" name="post_model" value="<?php echo $_POST['post_model']?>">
 	  <div class="form-floating mb-3 mt-3">
 		<input type="ecid" class="form-control" id="ecid" placeholder="Enter ECID" name="ecid">
-		<label for="ecid" class="form-label">ecid</label>
+		<label for="ecid" class="form-label">ecid(hex)</label>
 	  </div>
 	  <div class="form-floating mb-3 mt-3">
 		<select id="model" class="form-control">
@@ -75,7 +75,7 @@ function get_i4_shsh_downlink(){
 		<option value="iPhone8,2">iPhone 6s Plus - iPhone8,2</option>
 		<option value="iPhone8,4">iPhone SE - iPhone8,4</option>
 		</select>
-		<label for="model" class="form-label">model:</label>
+		<label for="model" class="form-label">model</label>
 
 	  </div>
 	  <button type="submit" class="btn btn-primary">提交</button>
